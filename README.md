@@ -6,8 +6,8 @@ To run:
 * Prereqs
 	* Java 1.7
 	* For CDH 5.3
-		..* Access to the Cloudera Manager instance, either via IP address or DNS Name
-		..* Cloudera Manager Login and Password 
+		* Access to the Cloudera Manager instance, either via IP address or DNS Name
+		* Cloudera Manager Login and Password 
 	* For EC2
 		.* AWS account, .aws/credentials file containing your keys
 		..* AWS account must have an EC2 IAM permission allowing actions DescribeInstances, StartInstances and StopInstances 
