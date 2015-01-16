@@ -1,3 +1,18 @@
+/**
+ *    Copyright 2015 IPC Global (http://www.ipc-global.com) and others.
+ * 
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ * 
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
 package com.ipcglobal.awscdh.config;
 
 import java.util.ArrayList;
@@ -20,17 +35,43 @@ import com.cloudera.api.v6.RootResourceV6;
 import com.cloudera.api.v6.ServicesResourceV6;
 import com.ipcglobal.awscdh.util.Utils;
 
+/**
+ * The Class ManageCdh.
+ * Start or Stop CDH Services via the CDH API
+ */
 public class ManageCdh {
+	
+	/** The Constant log. */
 	private static final Log log = LogFactory.getLog(ManageCdh.class);
+	
+	/** The Constant POLLING_INTERVAL_SECONDS. */
 	private static final Long POLLING_INTERVAL_SECONDS = 60L;
+	
+	/** The polling verbose. */
 	private static boolean POLLING_VERBOSE = true;
+	
+	/** The cloudera manager dns name or ip address. */
 	private String clouderaManagerDnsNameOrIpAddress;
+	
+	/** The cloudera manager admin login. */
 	private String clouderaManagerAdminLogin;
+	
+	/** The cloudera manager admin password. */
 	private String clouderaManagerAdminPassword;
+	
+	/** The timeout minutes start cdh cluster. */
 	private int timeoutMinutesStartCdhCluster;
+	
+	/** The timeout minutes stop cdh cluster. */
 	private int timeoutMinutesStopCdhCluster;
 	
 	
+	/**
+	 * Instantiates a new manage cdh.
+	 *
+	 * @param properties the properties
+	 * @throws Exception the exception
+	 */
 	public ManageCdh( Properties properties ) throws Exception {
 		this.clouderaManagerDnsNameOrIpAddress = properties.getProperty( "clouderaManagerDnsNameOrIpAddress" ).trim();
 		this.clouderaManagerAdminLogin = properties.getProperty( "clouderaManagerAdminLogin" ).trim();
@@ -40,6 +81,12 @@ public class ManageCdh {
 	}
 	
 	
+	/**
+	 * Find cluster.
+	 *
+	 * @return the api cluster
+	 * @throws Exception the exception
+	 */
 	public ApiCluster findCluster( ) throws Exception {
 		List<ApiCluster> apiClusters = findApiClusters( );
 		log.info( "findCluster clouderaManagerDnsNameOrIpAddress=" + clouderaManagerDnsNameOrIpAddress + ", apiClusters.size()=" + apiClusters.size() );
@@ -48,6 +95,12 @@ public class ManageCdh {
 	}
 
 	
+	/**
+	 * Find api clusters.
+	 *
+	 * @return the list
+	 * @throws Exception the exception
+	 */
 	public List<ApiCluster> findApiClusters( ) throws Exception {
 		List<ApiCluster> apiClusters = new ArrayList<ApiCluster>();
 		try {
@@ -65,6 +118,9 @@ public class ManageCdh {
 	}
 	
 	
+	/**
+	 * Stop CDH Services.
+	 */
 	public void stop( ) {
 		try {
 			ApiCluster apiCluster = findCluster( );
@@ -93,6 +149,9 @@ public class ManageCdh {
 	}
 
 	
+	/**
+	 * Start CDH Services.
+	 */
 	public void start( ) {
 		try {
 			ApiCluster apiCluster = findCluster( );
@@ -126,6 +185,15 @@ public class ManageCdh {
 	}
 	
 	
+	/**
+	 * Poll services target state.
+	 *
+	 * @param apiServiceStateTarget the api service state target
+	 * @param serviceNames the service names
+	 * @param servicesResource the services resource
+	 * @param pollTimeoutMins the poll timeout mins
+	 * @throws Exception the exception
+	 */
 	private void pollServicesTargetState( ApiServiceState apiServiceStateTarget, List<String> serviceNames, ServicesResourceV6 servicesResource,
 			int pollTimeoutMins ) throws Exception {
 		// Poll the services every 15 seconds until all stopped or timeout
@@ -149,7 +217,14 @@ public class ManageCdh {
 	}
 	
 	
-	// Find the names of all of the services in this cluster
+	/**
+	 * Find service names in cluster.
+	 *
+	 * @param apiCluster the api cluster
+	 * @param servicesResource the services resource
+	 * @return the list
+	 * @throws Exception the exception
+	 */
 	public List<String> findServiceNamesInCluster( ApiCluster apiCluster, ServicesResourceV6 servicesResource ) throws Exception {
 		List<String> serviceNames = new ArrayList<String>();
 		for (ApiService apiService : apiCluster.getServices()) {
@@ -159,67 +234,141 @@ public class ManageCdh {
 		return serviceNames;
 	}
 	
+	/**
+	 * The Class PollServicesTargetStateTimeoutException.
+	 */
 	public static class PollServicesTargetStateTimeoutException extends Exception {
+		
+		/** The Constant serialVersionUID. */
 		private static final long serialVersionUID = -816416074433143509L;
+		
+		/** The services not in target state. */
 		private String servicesNotInTargetState;
 		
+		/**
+		 * Instantiates a new poll services target state timeout exception.
+		 *
+		 * @param servicesNotInTargetState the services not in target state
+		 */
 		public PollServicesTargetStateTimeoutException( String servicesNotInTargetState ) {
 			super();
 			this.servicesNotInTargetState = servicesNotInTargetState;
 		}
+		
+		/**
+		 * Gets the services not in target state.
+		 *
+		 * @return the services not in target state
+		 */
 		public String getServicesNotInTargetState() {
 			return servicesNotInTargetState;
 		}
+		
+		/**
+		 * Sets the services not in target state.
+		 *
+		 * @param servicesNotInTargetState the new services not in target state
+		 */
 		public void setServicesNotInTargetState(String servicesNotInTargetState) {
 			this.servicesNotInTargetState = servicesNotInTargetState;
 		}
 	}
 
+	/**
+	 * Gets the cloudera manager dns name or ip address.
+	 *
+	 * @return the cloudera manager dns name or ip address
+	 */
 	public String getClouderaManagerDnsNameOrIpAddress() {
 		return clouderaManagerDnsNameOrIpAddress;
 	}
 
 
+	/**
+	 * Sets the cloudera manager dns name or ip address.
+	 *
+	 * @param clouderaManagerDnsNameOrIpAddress the new cloudera manager dns name or ip address
+	 */
 	public void setClouderaManagerDnsNameOrIpAddress(String clouderaManagerDnsNameOrIpAddress) {
 		this.clouderaManagerDnsNameOrIpAddress = clouderaManagerDnsNameOrIpAddress;
 	}
 
 
+	/**
+	 * Gets the cloudera manager admin login.
+	 *
+	 * @return the cloudera manager admin login
+	 */
 	public String getClouderaManagerAdminLogin() {
 		return clouderaManagerAdminLogin;
 	}
 
 
+	/**
+	 * Sets the cloudera manager admin login.
+	 *
+	 * @param clouderaManagerAdminLogin the new cloudera manager admin login
+	 */
 	public void setClouderaManagerAdminLogin(String clouderaManagerAdminLogin) {
 		this.clouderaManagerAdminLogin = clouderaManagerAdminLogin;
 	}
 
 
+	/**
+	 * Gets the cloudera manager admin password.
+	 *
+	 * @return the cloudera manager admin password
+	 */
 	public String getClouderaManagerAdminPassword() {
 		return clouderaManagerAdminPassword;
 	}
 
 
+	/**
+	 * Sets the cloudera manager admin password.
+	 *
+	 * @param clouderaManagerAdminPassword the new cloudera manager admin password
+	 */
 	public void setClouderaManagerAdminPassword(String clouderaManagerAdminPassword) {
 		this.clouderaManagerAdminPassword = clouderaManagerAdminPassword;
 	}
 
 
+	/**
+	 * Gets the timeout minutes start cdh cluster.
+	 *
+	 * @return the timeout minutes start cdh cluster
+	 */
 	public int getTimeoutMinutesStartCdhCluster() {
 		return timeoutMinutesStartCdhCluster;
 	}
 
 
+	/**
+	 * Sets the timeout minutes start cdh cluster.
+	 *
+	 * @param timeoutMinutesStartCdhCluster the new timeout minutes start cdh cluster
+	 */
 	public void setTimeoutMinutesStartCdhCluster(int timeoutMinutesStartCdhCluster) {
 		this.timeoutMinutesStartCdhCluster = timeoutMinutesStartCdhCluster;
 	}
 
 
+	/**
+	 * Gets the timeout minutes stop cdh cluster.
+	 *
+	 * @return the timeout minutes stop cdh cluster
+	 */
 	public int getTimeoutMinutesStopCdhCluster() {
 		return timeoutMinutesStopCdhCluster;
 	}
 
 
+	/**
+	 * Sets the timeout minutes stop cdh cluster.
+	 *
+	 * @param timeoutMinutesStopCdhCluster the new timeout minutes stop cdh cluster
+	 */
 	public void setTimeoutMinutesStopCdhCluster(int timeoutMinutesStopCdhCluster) {
 		this.timeoutMinutesStopCdhCluster = timeoutMinutesStopCdhCluster;
 	}

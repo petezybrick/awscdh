@@ -1,3 +1,18 @@
+/**
+ *    Copyright 2015 IPC Global (http://www.ipc-global.com) and others.
+ * 
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ * 
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
 package com.ipcglobal.awscdh.util;
 
 import org.apache.commons.logging.Log;
@@ -10,9 +25,20 @@ import com.amazonaws.auth.InstanceProfileCredentialsProvider;
 import com.amazonaws.auth.PropertiesFileCredentialsProvider;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 
+
+/**
+ * The Class Utils.
+ */
 public class Utils {
+	
+	/** The Constant log. */
 	private static final Log log = LogFactory.getLog(Utils.class);
 
+	/**
+	 * Inits the credentials.
+	 *
+	 * @return the AWS credentials provider
+	 */
 	public static AWSCredentialsProvider initCredentials() {
 		// Get credentials from IMDS. If unsuccessful, get them from the
 		// credential profiles file.
@@ -84,11 +110,23 @@ public class Utils {
 	}	
 
 	
+	/**
+	 * Convert m secs to h mm ss.
+	 *
+	 * @param msecs the msecs
+	 * @return the string
+	 */
 	public static String convertMSecsToHMmSs(long msecs) {
 		return convertSecsToHMmSs(msecs/1000L);
 	}
 	
 	
+	/**
+	 * Convert secs to h mm ss.
+	 *
+	 * @param seconds the seconds
+	 * @return the string
+	 */
 	public static String convertSecsToHMmSs(long seconds) {
 	    long s = seconds % 60;
 	    long m = (seconds / 60) % 60;
