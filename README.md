@@ -1,6 +1,6 @@
 # Start/Stop Cloudera CDH 5.3 and AWS EC2 Instances
 
-This project displays basic examples of how to call the AWS SDK for EC2 and the Cloudera CDH API. I have a Development/Testing/POC installation of Cloudera CDH 5.3 running on a cluster of 5 EC2 instances.  I only bring the cluster up when I need it, keep it stopped the rest of the time.  To start or stop the cluster, I would have to login to the AWS EC2 console and Cloudera Manager (CM) console and perform the start/stop sequence.  This program automates that process - from my desktop, I can issue a single command to start or stop both the EC2 instances and Cloudera CDH 5.3 services.  Additionally, multiple properties files can be created, so if you have multiple clusters you can have a separate properties file to start/stop each cluster.
+This project displays basic examples of how to call the AWS SDK for EC2 and the Cloudera CDH API. I have a Development/Testing/POC installation of Cloudera CDH 5.3 running on a cluster of 5 EC2 instances.  I only bring the cluster up when I need it, keep it stopped the rest of the time.  To start or stop the cluster, I would have to login to the AWS EC2 console and Cloudera Manager (CM) console and perform the start/stop sequence.  This utility automates that process - from my desktop, I can issue a single command to start or stop both the EC2 instances and Cloudera CDH 5.3 services.  Additionally, multiple properties files can be created, so if you have multiple clusters you can have a separate properties file to start/stop each cluster.
 
 To run:
 * Prereqs
@@ -33,9 +33,9 @@ Java Project Overview
  	* ManageCluster.java - start EC2 instances then CDH services, stop CDH services then EC2 instances
 * ManageCdh and ManageEc2 can be run independently, feel free to copy to another project 
 	* If you copy ManageCdh to another project, be sure to include the following in the pom.xml under the maven-shade-plugin
-		<transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-			<resource>META-INF/cxf/bus-extensions.txt</resource>
-		</transformer>
+		&lt;transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer"&gt;
+			&lt;resource&gt;META-INF/cxf/bus-extensions.txt&lt;/resource&gt;
+		&lt;/transformer&gt;
 	* If you don't, the program will run fine under Eclipse, but you may get a ServiceConstructionException or BusException when running from the jar, I burned a couple of hours tracking this one down.
 * ManageCdh and ManageEc2 poll status'
 	* Modify POLLING_INTERVAL_SECONDS to change the polling frequency
