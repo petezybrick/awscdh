@@ -26,8 +26,8 @@ To run:
 	* Note: During CDH services startup, some service status' will display as red on the CM console.  Once all service are up, the status' should be green
  
 Java Project Overview
- * Maven project in Eclipse, but should easily port to other IDE's
- * Three main classes
+* Maven project in Eclipse, but should easily port to other IDE's
+* Three main classes
  	* ManageCdh.java - start/stop the services running on the Cloudera Manager
  	* ManageEc2.java - start/stop set of EC2 instances
  	* ManageCluster.java - start EC2 instances then CDH services, stop CDH services then EC2 instances
