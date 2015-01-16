@@ -32,10 +32,10 @@ Java Project Overview
  	* ManageEc2.java - start/stop set of EC2 instances
  	* ManageCluster.java - start EC2 instances then CDH services, stop CDH services then EC2 instances
 * ManageCdh and ManageEc2 can be run independently, feel free to copy to another project 
-	* If you copy ManageCdh to another project, be sure to include the following in the pom.xml under the maven-shade-plugin
-		&lt;transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer"&gt;
-			&lt;resource&gt;META-INF/cxf/bus-extensions.txt&lt;/resource&gt;
-		&lt;/transformer&gt;
+	* If you copy ManageCdh to another project, be sure to include the following in the pom.xml under the maven-shade-plugin<br>
+		&lt;transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer"&gt;<br>
+			&lt;resource&gt;META-INF/cxf/bus-extensions.txt&lt;/resource&gt;<br>
+		&lt;/transformer&gt;<br>
 	* If you don't, the program will run fine under Eclipse, but you may get a ServiceConstructionException or BusException when running from the jar, I burned a couple of hours tracking this one down.
 * ManageCdh and ManageEc2 poll status'
 	* Modify POLLING_INTERVAL_SECONDS to change the polling frequency
